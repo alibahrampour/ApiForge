@@ -1,8 +1,32 @@
 # ApiForge
 
-Generate CURL commands and Postman collections from API testing scenarios.
+> Open Source API Testing Platform for Generating, Executing, and Analyzing API Test Scenarios
 
-ApiForge is a lightweight API scenario generator built with FastAPI. It helps QA Engineers, API Testers, Developers, and Automation Engineers generate multiple CURL commands and Postman collections from a single API definition.
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-alpha-orange)
+
+---
+
+## Overview
+
+ApiForge is an open-source API Testing Platform designed to simplify the creation and management of API test scenarios.
+
+The project currently provides tools for generating:
+
+* CURL commands
+* Postman collections
+
+from structured API configurations.
+
+The long-term vision of ApiForge is to become a complete API testing ecosystem capable of:
+
+* Scenario Generation
+* Request Execution
+* HTML & JSON Reporting
+* Test Analytics
+* Cartesian Product Testing
+* Automated API Validation
 
 ---
 
@@ -10,90 +34,40 @@ ApiForge is a lightweight API scenario generator built with FastAPI. It helps QA
 
 ### Current Features
 
-* Generate CURL commands
-* Generate Postman Collection (v2.1)
-* Multiple API Routes
-* Multiple Request Bodies
-* Multiple Query Parameters
-* Scenario Combination Generation
-* Export CURL Script File
-* Export Postman Collection JSON
+* Generate CURL commands from API definitions
+* Generate Postman collections automatically
+* Support custom request headers
+* Support query parameters
+* Support request bodies
+* JSON-based configuration
+* Input validation
+* Lightweight architecture
+* Extensible codebase
 
----
+### Planned Features
 
-## Use Cases
-
-### API Testing
-
-Generate dozens of API test scenarios automatically.
-
-### Postman Collection Generation
-
-Create importable Postman collections from API definitions.
-
-### Automation Preparation
-
-Prepare API test cases before implementing automated tests.
-
-### QA Scenario Generation
-
-Quickly create different request combinations for manual testing.
-
----
-
-## Tech Stack
-
-* Python 3.10+
-* FastAPI
-* Pydantic
-* Uvicorn
-
----
-
-## Project Structure
-
-```text
-apiforge/
-│
-├── src/
-│   ├── app.py
-│   ├── models.py
-│   ├── curl_builder.py
-│   ├── postman_builder.py
-│   └── utils.py
-│
-├── output/
-│
-├── examples/
-│   └── sample_request.json
-│
-├── tests/
-│
-├── docs/
-│   └── roadmap.md
-│
-├── requirements.txt
-├── README.md
-├── LICENSE
-├── setup.py
-└── pyproject.toml
-```
+* CURL Runner Service
+* HTML Report Generator
+* JSON Report Generator
+* API Test Analytics Engine
+* Cartesian Product Test Generation
+* Per-Endpoint Header Configuration
+* Execution History
+* Retry Mechanism
+* Dashboard Metrics
+* Test Result Aggregation
 
 ---
 
 ## Why ApiForge?
 
-Modern API tools like Postman and ApiDog are excellent for designing, testing, and documenting APIs. However, generating large numbers of request variations often requires manual work.
+Modern API tools like Postman and ApiDog are excellent for designing, testing, and documenting APIs.
 
-ApiForge focuses on one specific problem:
+However, generating large numbers of API request variations often requires repetitive manual work.
 
-> Rapid API Scenario Generation
+ApiForge focuses on solving a different problem:
 
-Instead of manually creating dozens of requests, ApiForge automatically generates test scenarios from combinations of:
-
-* Routes
-* Request Bodies
-* Query Parameters
+> Rapid API Scenario Generation and Automated API Testing
 
 ### Example
 
@@ -103,96 +77,176 @@ Suppose you have:
 * 3 request bodies
 * 4 query parameter sets
 
-Creating all possible test cases manually would require:
+Traditional testing may require manually creating:
 
 ```text
 5 × 3 × 4 = 60 Requests
 ```
 
-ApiForge generates them automatically and exports:
+ApiForge is designed to generate these scenarios automatically and export them into:
 
-* CURL Scripts
+* CURL Commands
 * Postman Collections
+
+Future releases will also execute those requests automatically and generate detailed reports.
 
 ### Designed For
 
 * QA Engineers
 * Software Testers
-* API Automation Engineers
+* Test Automation Engineers
 * Backend Developers
 * DevOps Engineers
-
-### Current Goal
-
-Generate API testing scenarios quickly and consistently.
-
-### Future Vision
-
-ApiForge is evolving into a complete API Testing Platform that will support:
-
-* Scenario Generation
-* CURL Execution
-* Retry Mechanisms
-* JSON Reports
-* HTML Reports
-* API Analytics
-* Test Result Statistics
-* Cartesian Product Testing
-
-### Why Not Just Use Postman?
-
-Postman is excellent for API execution and collaboration.
-
-ApiForge complements Postman by automating the generation of large numbers of API test scenarios and exporting them directly as Postman collections.
-
-### Why Not Just Use ApiDog?
-
-ApiDog focuses on API design, debugging, documentation, and testing.
-
-ApiForge focuses on bulk scenario generation and future automated execution/reporting workflows, making it useful for large-scale API testing and QA activities.
+* API Developers
 
 ### Key Advantages
 
+* Open Source
 * Lightweight
 * Fast
-* Open Source
-* Developer Friendly
-* QA Focused
-* Easy Postman Integration
-* Designed for Future Automation
+* Automation-Friendly
+* QA-Oriented
+* Extensible Architecture
+* Future-Ready Roadmap
 
+---
+
+## Project Status
+
+ApiForge is currently in the **Alpha Stage**.
+
+### Implemented
+
+* CURL Generator
+* Postman Collection Generator
+* Request Validation
+* JSON Input Support
+
+### In Progress
+
+* Architecture Refactoring
+* Service Layer Improvements
+
+### Planned
+
+* CURL Runner
+* HTML Reports
+* JSON Reports
+* Analytics Engine
+* Cartesian Product Testing
+* Per-URL Header Support
+
+---
+
+## Architecture
+
+### Current Architecture
+
+```text
+JSON Input
+    │
+    ▼
+Validation Layer
+    │
+    ▼
+Scenario Builder
+    │
+    ├── CURL Generator
+    │
+    └── Postman Generator
+```
+
+### Future Architecture
+
+```text
+Scenario Builder
+    │
+    ▼
+Execution Engine
+    │
+    ▼
+Report Generator
+    │
+    ├── HTML Reports
+    ├── JSON Reports
+    │
+    ▼
+Analytics Engine
+```
+
+---
+
+## Project Structure
+
+```text
+ApiForge/
+│
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   │
+│   └── workflows/
+│       ├── python-tests.yml
+│       └── release.yml
+│
+├── docs/
+│   └── roadmap.md
+│
+├── examples/
+│   └── sample_request.json
+│
+├── tests/
+│   ├── __init__.py
+│   ├── test_curl_builder.py
+│   ├── test_postman_builder.py
+│   └── test_models.py
+│
+├── app.py
+├── models.py
+├── curl_builder.py
+├── postman_builder.py
+├── utils.py
+│
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── requirements.txt
+├── setup.py
+├── pyproject.toml
+└── .gitignore
+```
+
+---
 
 ## Installation
 
-Clone repository:
+### Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/apiforge.git
-
+git clone https://github.com/your-username/apiforge.git
 cd apiforge
 ```
 
-Create virtual environment:
+### Create Virtual Environment
+
+Linux / Mac:
 
 ```bash
 python -m venv venv
-```
-
-Activate environment:
-
-Linux / Mac
-
-```bash
 source venv/bin/activate
 ```
 
-Windows
+Windows:
 
 ```bash
+python -m venv venv
 venv\Scripts\activate
 ```
 
-Install dependencies:
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -200,195 +254,151 @@ pip install -r requirements.txt
 
 ---
 
-## Run Application
+## Running ApiForge
 
-Start FastAPI server:
+Start the application:
 
 ```bash
-uvicorn src.app:app --reload
+python app.py
 ```
 
-Application URL:
+Default URL:
 
 ```text
-http://127.0.0.1:8000
-```
-
-Swagger UI:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-ReDoc:
-
-```text
-http://127.0.0.1:8000/redoc
+http://localhost:5000
 ```
 
 ---
 
-## API Endpoint
-
-### Generate Scenarios
-
-```http
-POST /generate
-```
-
----
-
-## Example Request
+## Example Input
 
 ```json
 {
-  "routes": [
-    {
-      "url": "https://api.example.com/users",
-      "method": "GET"
-    }
+  "urls": [
+    "https://api.example.com/users"
   ],
-
+  "methods": [
+    "GET"
+  ],
   "headers": {
     "Authorization": "Bearer token"
   },
-
-  "bodies": [
-    {
-      "name": "Ali"
-    }
-  ],
-
-  "queries": [
-    {
-      "page": 1
-    }
-  ]
+  "query_params": {
+    "page": "1"
+  }
 }
 ```
 
 ---
 
-## Example Response
+## Running Tests
 
-```json
-{
-  "generated_requests": 1,
-  "curl_file": "output/curls.sh",
-  "postman_file": "output/postman_collection.json"
-}
-```
-
----
-
-## Generated CURL Example
+Run all tests:
 
 ```bash
-curl --location --request GET \
-'https://api.example.com/users?page=1' \
---header 'Authorization: Bearer token'
+pytest tests -v
+```
+
+Run a specific test:
+
+```bash
+pytest tests/test_curl_builder.py -v
 ```
 
 ---
 
-## Generated Files
+## Tech Stack
 
-### CURL Script
+ApiForge is built with:
 
-```text
-output/curls.sh
-```
+* Python 3.10+
+* Flask
+* JSON
+* REST API Principles
+* Pytest
+* GitHub Actions
 
-### Postman Collection
+Future integrations may include:
 
-```text
-output/postman_collection.json
-```
-
----
-
-## How Scenario Generation Works
-
-ApiForge generates combinations based on:
-
-```text
-Routes × Bodies × Queries
-```
-
-Example:
-
-```text
-3 Routes
-2 Bodies
-4 Queries
-```
-
-Generated Requests:
-
-```text
-3 × 2 × 4 = 24
-```
+* Pandas
+* Jinja2
+* SQLite
+* Plotly
 
 ---
 
 ## Roadmap
 
-### v0.2.0
+See the detailed roadmap:
 
-* Route Specific Headers
-* Custom Output Names
-* Environment Configuration
+```text
+docs/roadmap.md
+```
 
-### v0.3.0
+Upcoming milestones:
 
-* CURL Runner
-* Retry Mechanism
-* Execution Logs
-
-### v0.4.0
-
-* JSON Reports
-
-### v0.5.0
-
-* HTML Reports
-
-### v0.6.0
-
-* Statistics Engine
-
-### v0.7.0
-
+* CURL Runner Service
+* HTML Report Generator
+* JSON Report Generator
+* Analytics Engine
 * Cartesian Product Testing
-
-### v1.0.0
-
-Complete API Testing Platform
-
-* Scenario Generation
-* CURL Execution
-* Report Generation
-* API Analytics
-* Test Automation
+* Header Management Per Endpoint
 
 ---
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome.
+Contributions are welcome.
 
-Feel free to open an issue or submit a pull request.
+Please read:
+
+* CONTRIBUTING.md
+* CODE_OF_CONDUCT.md
+
+before submitting Pull Requests.
+
+---
+
+## Changelog
+
+Project history is maintained in:
+
+```text
+CHANGELOG.md
+```
 
 ---
 
 ## License
 
-MIT License
+This project is licensed under the MIT License.
+
+See:
+
+```text
+LICENSE
+```
+
+for more details.
 
 ---
 
-## Author
+## Support
 
-Ali Bahrampour
+If you find a bug or want to request a feature, please create an issue through GitHub.
 
-GitHub: https://github.com/alibahrampour
+Bug reports and feature requests help improve ApiForge for everyone.
+
+---
+
+## Vision
+
+ApiForge aims to become a complete API Testing Platform that helps teams:
+
+* Generate test scenarios
+* Execute API requests
+* Analyze responses
+* Produce reports
+* Improve API quality
+
+from a single lightweight and open-source platform.

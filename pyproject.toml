@@ -5,30 +5,37 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "apiforge"
 version = "0.1.0"
-description = "Generate CURL commands and Postman collections from API scenarios"
+description = "API Testing Platform for generating, executing and analyzing API test scenarios."
 readme = "README.md"
 requires-python = ">=3.10"
 
 authors = [
-    { name = "Ali Bahrampour" }
+    {name = "Your Name"}
 ]
 
-dependencies = [
-    "fastapi",
-    "uvicorn",
-    "pydantic"
-]
+license = {text = "MIT"}
 
 keywords = [
     "api",
+    "testing",
     "curl",
     "postman",
-    "testing",
-    "automation"
+    "automation",
+    "qa"
 ]
 
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent"
+    "Topic :: Software Development :: Testing",
 ]
+
+dependencies = [
+    "flask>=3.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/apiforge"
+Documentation = "https://github.com/your-username/apiforge/wiki"
+Issues = "https://github.com/your-username/apiforge/issues"
