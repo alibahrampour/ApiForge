@@ -44,3 +44,23 @@ This is the first public release of ApiForge.
 The primary goal of this release is to provide a lightweight foundation for generating API testing scenarios and exporting them as CURL commands and Postman collections.
 
 Future releases will focus on execution, reporting, analytics, and large-scale API testing automation.
+
+## [2.0.0] - 2026-06-10
+
+### Added
+
+- API Scenario Generator
+- Scenario-based cURL generation
+- Multiple test case generation
+- Scenario endpoint (/generate-scenarios)
+
+### Improved
+
+- Project documentation
+- Swagger descriptions
+- API testing workflow
+
+### Existing Features
+
+- cURL Generator
+- Postman Collection Generator
