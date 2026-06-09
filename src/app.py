@@ -146,7 +146,6 @@ def generate_scenarios_api(request: ScenarioRequest):
 
     scenarios = generate_scenarios(
         headers=request.headers,
-        path_params=request.path_params,
         query_params=request.query_params,
         body_params=request.body_params,
     )

@@ -21,14 +21,12 @@ def powerset(items):
 
 def generate_scenarios(
     headers,
-    path_params,
     query_params,
     body_params
 ):
     scenarios = []
 
     header_sets = powerset(headers) if headers else [()]
-    path_sets = powerset(path_params) if path_params else [()]
     query_sets = powerset(query_params) if query_params else [()]
     body_sets = powerset(body_params) if body_params else [()]
 
@@ -43,7 +41,6 @@ def generate_scenarios(
                     scenarios.append(
                         {
                             "headers": list(h),
-                            "path_params": list(p),
                             "query_params": list(q),
                             "body_params": list(b),
                         }

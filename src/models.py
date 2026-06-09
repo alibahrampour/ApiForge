@@ -9,7 +9,6 @@ class ScenarioRequest(BaseModel):
     url: str
 
     headers: Optional[List[str]] = []
-    path_params: Optional[List[str]] = []
     query_params: Optional[List[str]] = []
     body_params: Optional[List[str]] = []
 
