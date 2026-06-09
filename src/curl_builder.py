@@ -5,11 +5,10 @@ from urllib.parse import urlencode
 def build_curl(
     url: str,
     method: str,
-    headers: dict,
-    body: dict | None,
-    query: dict | None
+    headers: dict | None = None,
+    body: dict | None = None,
+    query: dict | None = None
 ):
-
     final_url = url
 
     if query:
@@ -21,10 +20,11 @@ def build_curl(
         f"'{final_url}'"
     )
 
-    for k, v in headers.items():
-        curl += (
-            f" \\\n--header '{k}: {v}'"
-        )
+    if headers:
+        for k, v in headers.items():
+            curl += (
+                f" \\\n--header '{k}: {v}'"
+            )
 
     if body:
         curl += (
@@ -34,16 +34,41 @@ def build_curl(
 
     return curl
 
+
 def build_scenario_curl(
-    method,
-    url,
-    scenario
+    method: str,
+    url: str,
+    scenario: dict
 ):
+    """
+    scenario example:
+
+    {
+        "headers": ["Authorization"],
+        "query_params": ["page", "size"],
+        "body_params": ["name"]
+    }
+    """
+
+    headers = {
+        header: f"{header}_value"
+        for header in scenario.get("headers", [])
+    }
+
+    query = {
+        param: f"{param}_value"
+        for param in scenario.get("query_params", [])
+    }
+
+    body = {
+        param: f"{param}_value"
+        for param in scenario.get("body_params", [])
+    }
+
     return build_curl(
-        method=method,
         url=url,
-        headers=scenario["headers"],
-        path_params=scenario["path_params"],
-        query_params=scenario["query_params"],
-        body_params=scenario["body_params"],
+        method=method,
+        headers=headers if headers else None,
+        body=body if body else None,
+        query=query if query else None,
     )
