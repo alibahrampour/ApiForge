@@ -10,6 +10,9 @@ from utils import extract_route_name
 from curl_builder import build_curl
 from postman_builder import build_postman_item
 
+from models import ScenarioRequest
+from utils import generate_scenarios
+from curl_builder import build_scenario_curl
 
 app = FastAPI(
     title="ApiForge"
@@ -135,4 +138,40 @@ def generate(data: GenerateRequest):
         "generated_requests": total,
         "curl_file": curl_file,
         "postman_file": postman_file
+    }
+
+
+@app.post("/generate-scenarios")
+def generate_scenarios_api(request: ScenarioRequest):
+
+    scenarios = generate_scenarios(
+        headers=request.headers,
+        path_params=request.path_params,
+        query_params=request.query_params,
+        body_params=request.body_params,
+    )
+
+    result = []
+
+    for idx, scenario in enumerate(
+        scenarios,
+        start=1
+    ):
+
+        curl = build_scenario_curl(
+            request.method,
+            request.url,
+            scenario
+        )
+
+        result.append(
+            {
+                "scenario": idx,
+                "curl": curl,
+            }
+        )
+
+    return {
+        "total": len(result),
+        "scenarios": result,
     }

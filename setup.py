@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="apiforge",
-    version="0.1.0",
-    author="Your Name",
-    author_email="your-email@example.com",
+    version="0.2.0",
+    author="Ali Bahrampour",
+    author_email="alibahrampour.76@gmail.com",
     description="API Testing Platform for generating, executing and analyzing API test scenarios.",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/your-username/apiforge",
+    url="https://github.com/alibahrampour/apiforge",
     packages=find_packages(),
     include_package_data=True,
     python_requires=">=3.10",

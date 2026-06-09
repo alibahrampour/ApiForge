@@ -223,21 +223,15 @@ ApiForge/
 
 ## Installation
 
-### Clone Repository
+
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/your-username/apiforge.git
 cd apiforge
 ```
 
-### Create Virtual Environment
-
-Linux / Mac:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
+### 2. Create Virtual Environment
 
 Windows:
 
@@ -246,26 +240,43 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### Install Dependencies
+Linux / macOS:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Running ApiForge
-
-Start the application:
+### 4. Start Development Server
 
 ```bash
-python app.py
+python -m uvicorn app:app --reload
 ```
 
-Default URL:
+The API will be available at:
 
 ```text
-http://localhost:5000
+http://127.0.0.1:8000
+```
+
+### 5. Open API Documentation
+
+Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+ReDoc:
+
+```text
+http://127.0.0.1:8000/redoc
 ```
 
 ---
