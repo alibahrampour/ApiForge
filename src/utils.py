@@ -1,4 +1,5 @@
-from itertools import combinations
+from itertools import combinations, product
+
 
 def extract_route_name(url: str) -> str:
     parts = [p for p in url.split("/") if p]
@@ -9,41 +10,72 @@ def extract_route_name(url: str) -> str:
     return parts[-1].replace("-", "_")
 
 
-
-def powerset(items):
-    result = []
-
-    for r in range(1, len(items) + 1):
-        result.extend(combinations(items, r))
-
-    return result
-
-
 def generate_scenarios(
+    routes,
     headers,
-    query_params,
-    body_params
+    bodies,
+    queries,
+    mode="exhaustive"
 ):
+
+    if not bodies:
+        bodies = [None]
+
+    if not queries:
+        queries = [None]
+
     scenarios = []
 
-    header_sets = powerset(headers) if headers else [()]
-    query_sets = powerset(query_params) if query_params else [()]
-    body_sets = powerset(body_params) if body_params else [()]
+    if mode == "minimal":
 
-    for h in header_sets:
-        for p in path_sets:
-            for q in query_sets:
-                for b in body_sets:
+        for route in routes:
 
-                    if not any([h, p, q, b]):
-                        continue
+            scenarios.append(
+                {
+                    "route": route,
+                    "headers": headers,
+                    "body": bodies[0],
+                    "query": queries[0]
+                }
+            )
 
-                    scenarios.append(
-                        {
-                            "headers": list(h),
-                            "query_params": list(q),
-                            "body_params": list(b),
-                        }
-                    )
+        return scenarios
+
+    if mode == "pairwise":
+
+        max_size = max(
+            len(routes),
+            len(bodies),
+            len(queries)
+        )
+
+        for i in range(max_size):
+
+            scenarios.append(
+                {
+                    "route": routes[i % len(routes)],
+                    "headers": headers,
+                    "body": bodies[i % len(bodies)],
+                    "query": queries[i % len(queries)]
+                }
+            )
+
+        return scenarios
+
+    # exhaustive
+
+    for route, body, query in product(
+        routes,
+        bodies,
+        queries
+    ):
+        scenarios.append(
+            {
+                "route": route,
+                "headers": headers,
+                "body": body,
+                "query": query
+            }
+        )
 
     return scenarios

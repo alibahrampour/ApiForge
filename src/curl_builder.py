@@ -5,10 +5,11 @@ from urllib.parse import urlencode
 def build_curl(
     url: str,
     method: str,
-    headers: dict | None = None,
-    body: dict | None = None,
-    query: dict | None = None
+    headers: dict,
+    body: dict | None,
+    query: dict | None
 ):
+
     final_url = url
 
     if query:
@@ -20,11 +21,10 @@ def build_curl(
         f"'{final_url}'"
     )
 
-    if headers:
-        for k, v in headers.items():
-            curl += (
-                f" \\\n--header '{k}: {v}'"
-            )
+    for k, v in headers.items():
+        curl += (
+            f" \\\n--header '{k}: {v}'"
+        )
 
     if body:
         curl += (
@@ -34,41 +34,17 @@ def build_curl(
 
     return curl
 
-
 def build_scenario_curl(
-    method: str,
-    url: str,
-    scenario: dict
+    route,
+    headers,
+    body,
+    query
 ):
-    """
-    scenario example:
-
-    {
-        "headers": ["Authorization"],
-        "query_params": ["page", "size"],
-        "body_params": ["name"]
-    }
-    """
-
-    headers = {
-        header: f"{header}_value"
-        for header in scenario.get("headers", [])
-    }
-
-    query = {
-        param: f"{param}_value"
-        for param in scenario.get("query_params", [])
-    }
-
-    body = {
-        param: f"{param}_value"
-        for param in scenario.get("body_params", [])
-    }
 
     return build_curl(
-        url=url,
-        method=method,
-        headers=headers if headers else None,
-        body=body if body else None,
-        query=query if query else None,
+        url=route.url,
+        method=route.method,
+        headers=headers,
+        body=body,
+        query=query
     )

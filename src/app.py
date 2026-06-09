@@ -25,7 +25,7 @@ os.makedirs(
 )
 
 
-@app.post("/generate")
+@app.post("/generate curl")
 def generate(data: GenerateRequest):
 
     routes = data.routes
@@ -142,12 +142,16 @@ def generate(data: GenerateRequest):
 
 
 @app.post("/generate-scenarios")
-def generate_scenarios_api(request: ScenarioRequest):
+def generate_scenarios_api(
+    request: ScenarioRequest
+):
 
     scenarios = generate_scenarios(
+        routes=request.routes,
         headers=request.headers,
-        query_params=request.query_params,
-        body_params=request.body_params,
+        bodies=request.bodies,
+        queries=request.queries,
+        mode=request.mode
     )
 
     result = []
@@ -158,19 +162,23 @@ def generate_scenarios_api(request: ScenarioRequest):
     ):
 
         curl = build_scenario_curl(
-            request.method,
-            request.url,
-            scenario
+            route=scenario["route"],
+            headers=scenario["headers"],
+            body=scenario["body"],
+            query=scenario["query"]
         )
 
         result.append(
             {
                 "scenario": idx,
-                "curl": curl,
+                "method": scenario["route"].method,
+                "url": scenario["route"].url,
+                "curl": curl
             }
         )
 
     return {
+        "mode": request.mode,
         "total": len(result),
-        "scenarios": result,
+        "scenarios": result
     }
