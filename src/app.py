@@ -14,6 +14,9 @@ from models import ScenarioRequest
 from utils import generate_scenarios
 from curl_builder import build_scenario_curl
 
+from datetime import datetime
+
+
 app = FastAPI(
     title="ApiForge"
 )
@@ -155,6 +158,7 @@ def generate_scenarios_api(
     )
 
     result = []
+    postman_items = []
 
     for idx, scenario in enumerate(
         scenarios,
@@ -168,17 +172,196 @@ def generate_scenarios_api(
             query=scenario["query"]
         )
 
+        request_name = f"Scenario_{idx}"
+
         result.append(
             {
                 "scenario": idx,
                 "method": scenario["route"].method,
                 "url": scenario["route"].url,
+                "headers": scenario["headers"],
+                "body": scenario["body"],
+                "query": scenario["query"],
                 "curl": curl
             }
         )
 
+        postman_items.append(
+            build_postman_item(
+                scenario["route"],
+                scenario["headers"],
+                scenario["body"],
+                scenario["query"],
+                request_name
+            )
+        )
+
+    postman_collection = {
+        "info": {
+            "name": "Scenario Collection",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+        },
+        "item": postman_items
+    }
+
+    postman_file = os.path.join(
+        OUTPUT_DIR,
+        "scenario_collection.json"
+    )
+
+    with open(
+        postman_file,
+        "w",
+        encoding="utf-8"
+    ) as f:
+        json.dump(
+            postman_collection,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
+
+    generated_at = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    html_rows = ""
+
+    for item in result:
+
+        query_text = json.dumps(
+            item["query"],
+            ensure_ascii=False,
+            indent=2
+        ) if item["query"] else "-"
+
+        body_text = json.dumps(
+            item["body"],
+            ensure_ascii=False,
+            indent=2
+        ) if item["body"] else "-"
+
+        html_rows += f"""
+        <tr>
+            <td>{item['scenario']}</td>
+            <td>{item['method']}</td>
+            <td>{item['url']}</td>
+            <td><pre>{query_text}</pre></td>
+            <td><pre>{body_text}</pre></td>
+            <td><pre>{item['curl']}</pre></td>
+        </tr>
+        """
+
+    html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ApiForge Scenario Report</title>
+
+<style>
+
+body {{
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 30px;
+}}
+
+h1 {{
+    margin-bottom: 20px;
+}}
+
+.card {{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}}
+
+table {{
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}}
+
+th {{
+    background: #2d3748;
+    color: white;
+}}
+
+th, td {{
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+}}
+
+pre {{
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>ApiForge Scenario Report</h1>
+
+<div class="card">
+    <h2>Summary</h2>
+
+    <p><strong>Mode:</strong> {request.mode}</p>
+
+    <p><strong>Total Scenarios:</strong> {len(result)}</p>
+
+    <p><strong>Generated At:</strong> {generated_at}</p>
+</div>
+
+<div class="card">
+    <h2>Artifacts</h2>
+
+    <p>
+        <strong>Postman Collection:</strong>
+        {postman_file}
+    </p>
+</div>
+
+<table>
+
+<tr>
+    <th>#</th>
+    <th>Method</th>
+    <th>URL</th>
+    <th>Query</th>
+    <th>Body</th>
+    <th>Curl</th>
+</tr>
+
+{html_rows}
+
+</table>
+
+</body>
+</html>
+"""
+
+    html_file = os.path.join(
+        OUTPUT_DIR,
+        "scenario_report.html"
+    )
+
+    with open(
+        html_file,
+        "w",
+        encoding="utf-8"
+    ) as f:
+        f.write(html_content)
+
     return {
         "mode": request.mode,
         "total": len(result),
-        "scenarios": result
+        "html_file": html_file,
+        "postman_file": postman_file
     }
